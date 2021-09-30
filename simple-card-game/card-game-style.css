@@ -1,0 +1,108 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: monospace;
+  box-sizing: border-box;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
+}
+
+header a {
+  color: inherit;
+  opacity: 0.6;
+  display: flex;
+  align-items: center;
+  background-color: none;
+}
+
+header a:hover {
+  color: inherit;
+  opacity: 1;
+}
+
+header svg {
+  margin-right: 0.2rem;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 2rem;
+}
+
+h1 {
+  margin-bottom: 0.5rem;
+}
+
+.players-container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 1rem;
+}
+
+.player-box {
+  height: fit-content;
+  width: 150px;
+  //background-color: dodgerblue;
+  margin: 1rem;
+ // color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.player-box h2 {
+  margin-top: 0.6rem;
+  font-size: 1.2rem;
+  width: 100%;
+  text-align: center;
+}
+
+button {
+  margin: 1rem 0;
+  padding: 0.7rem;
+}
+
+.card {
+  margin-top: 1rem;
+  width: 144px;
+  height: 200px;
+  background-color: gold;
+  border-radius: 10px;
+  background-size: contain;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.remove {
+  display: none;
+}
+
+#start-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.winner {
+  background-color: lightgreen;
+  font-weight: bold;
+}
+
+#deck {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.score {
+  font-size: 1.8rem; 
+  margin-top: 0.3rem;
+}
