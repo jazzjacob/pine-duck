@@ -12,15 +12,16 @@ html {
 }
 
 body {
+  height: 100vh;
   min-width: 230px;
   background-color: var(--bg-color);
+  padding: 2rem 2rem 0 2rem;
 }
 
 main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 2rem 2rem 0 2rem;
   position: relative;
 }
 
@@ -53,24 +54,37 @@ li {
   color: white;
 }
 
+.main-links li {
+  margin-bottom: 1rem;
+}
+
 hr {
   width: 80%;
   height: 2px;
   border: none;
   background-color: var(--fg-color);
+  max-width: 600px;
 }
 
-button.main-link {
+ul.main-links {
+  display: flex; 
+  flex-direction: column;
+  align-items: center;
+}
+
+div.main-link {
   border: none;
   background-color: #3642F7;
   padding: 2rem 1.3rem;
   color: var(--bg-color);
   font-weight: bolder;
   font-size: 1.3rem;
+  width: fit-content;
+  text-align: center;
 }
 
 
-button.main-link:hover {
+div.main-link:hover {
   background-color: #2630C0;
   padding: 2rem 1.4rem;
   cursor: pointer;
@@ -101,10 +115,10 @@ button.main-link:hover {
   content: '';
   width: 120%;
   height: 0.5rem;
-  background-color: white;
   position: absolute;
   top: 0.8rem;
   z-index: -10;
+  background-color: white;
 }
 
 .links-nav a::after {
@@ -121,3 +135,31 @@ button.main-link:hover {
   margin-bottom: 0.6rem;
   color: var(--fg-color);
 }
+
+
+.subhead {
+  font-size: 1rem;
+  font-weight: lighter;
+  font-style: italic;
+}
+
+.duck {
+  width: 4rem;
+}
+
+.duck-container {
+  width: 100%;
+  height: fit-content;
+  position: fixed;
+  bottom: 1rem;
+  left: 0;
+  display: flex;
+  justify-content: center;
+}
+
+
+
+
+
+
+

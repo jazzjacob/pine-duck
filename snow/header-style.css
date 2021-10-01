@@ -1,0 +1,29 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: monospace;
+  box-sizing: border-box;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
+}
+
+header a {
+  color: inherit;
+  opacity: 0.6;
+  display: flex;
+  align-items: center;
+  background-color: none;
+}
+
+header a:hover {
+  color: inherit;
+  opacity: 1;
+}
+
+header svg {
+  margin-right: 0.2rem;
+}
