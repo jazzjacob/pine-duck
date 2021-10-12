@@ -1,3 +1,9 @@
+stuff to fix in development:
+ - hamburger och X är blå på iPhone
+ - bakgrund utanför body är röd
+
+
+
 saker att ändra:
   - ändra siterubrik från att vara background-img till text (h1-tag)
   - 'bli medlem'-sidan endast 1 bild
