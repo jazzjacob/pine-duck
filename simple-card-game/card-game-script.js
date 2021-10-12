@@ -1,4 +1,4 @@
-import {convertCardToNumberValue} from './functions.js';
+import {convertCardToNumberValue, printEndMessage} from './functions.js';
 
 const deckButton = document.querySelector('#deck-button');
 const reshuffleButton = document.querySelector('#reset-button');
@@ -23,20 +23,6 @@ let p1Score = 0;
 let p2Score = 0;
 
 const nextRoundButton = document.createElement('button');
-
-const printEndMessage = () => {
-  nextRoundButton.style.display = 'none';
-  const endWinnerMessage = document.createElement('p');
-  endWinnerMessage.classList.add('winner-message');
-  if (p1Score > p2Score) {
-    endWinnerMessage.innerText = 'Player One Wins!';
-  } else if (p1Score < p2Score) {
-    endWinnerMessage.innerText = 'Player Two Wins!';
-  } else {
-    endWinnerMessage.innerText = 'It\'s a tie!';
-  }
-  deck.append(endWinnerMessage);
-}
 
 deckButton.addEventListener('click', async function(event) {
   const response = await fetch(newDeckURL);
@@ -75,7 +61,8 @@ buttonOne.addEventListener('click', async function(event) {
     playerOneCard.style.backgroundColor = 'white';
     
     p1DrawnCard = drawnCard.cards[0].code;
-    p1DrawnCard = convertCardToNumberValue(p1DrawnCard);
+    p1DrawnCard = convertCardToNumberValue(p1DrawnCard); 
+  
     
     remainingCards = drawnCard.remaining;
     
@@ -108,7 +95,7 @@ buttonOne.addEventListener('click', async function(event) {
     }
     if (remainingCards === 0) {
       nextRoundButton.style.display = 'none';   
-      printEndMessage();
+      printEndMessage(deck, nextRoundButton, p1Score, p2Score);
     }    
   }
 })
@@ -153,15 +140,15 @@ buttonTwo.addEventListener('click', async function(event) {
       if (nextRoundButton.style.display === 'none') {
         nextRoundButton.style.display = 'block';
       }
+      buttonOne.disabled = true;
       nextRoundButton.innerText = 'Next round';
       main.appendChild(nextRoundButton);
-      buttonOne.disabled = true;
       p1DrawnCard = null;
       p2DrawnCard = null;
     }
     if (remainingCards === 0) {
-      nextRoundButton.style.display = 'none';    
-      printEndMessage();
+      nextRoundButton.style.display = 'none';  
+      printEndMessage(deck, nextRoundButton, p1Score, p2Score);
     }  
   }
 })
@@ -210,7 +197,6 @@ reshuffleButton.addEventListener('click', async function(event) {
   }
   buttonOne.innerText = 'Draw card';
   buttonTwo.innerText = 'Draw card';
-  console.dir(buttonOne.classList);
   
   playerOneCard.style.backgroundImage = null;
   playerTwoCard.style.backgroundImage = null;

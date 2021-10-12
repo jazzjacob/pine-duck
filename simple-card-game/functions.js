@@ -1,4 +1,4 @@
-export const convertCardToNumberValue = (cardCode) => {
+const convertCardToNumberValue = (cardCode) => {
   switch (cardCode) {
     case '2C': return 1;
     case '2D': return 2;
@@ -66,3 +66,19 @@ export const convertCardToNumberValue = (cardCode) => {
     case 'AS': return 52;
   }
 }
+
+const printEndMessage = (parent, nextRoundButton, p1Score, p2Score) => {
+  nextRoundButton.style.display = 'none';
+  const endWinnerMessage = document.createElement('p');
+  endWinnerMessage.classList.add('winner-message');
+  if (p1Score > p2Score) {
+    endWinnerMessage.innerText = 'Player One Wins!';
+  } else if (p1Score < p2Score) {
+    endWinnerMessage.innerText = 'Player Two Wins!';
+  } else {
+    endWinnerMessage.innerText = 'It\'s a tie!';
+  }
+  parent.append(endWinnerMessage);
+}
+
+export {convertCardToNumberValue, printEndMessage};
