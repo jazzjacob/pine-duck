@@ -1,17 +1,17 @@
 import {convertCardToNumberValue} from './functions.js';
 
 const deckButton = document.querySelector('#deck-button');
-const resetButton = document.querySelector('#reset-button');
+const reshuffleButton = document.querySelector('#reset-button');
 const buttonOne = document.querySelector('#button-one');
 const buttonTwo = document.querySelector('#button-two');
 const playerOneCard = document.querySelector('.player-one > .card');
 const playerTwoCard = document.querySelector('.player-two > .card');
 const deck = document.querySelector('#deck');
-const p1scoreElement = document.querySelector('.player-one .score');
-const p2scoreElement = document.querySelector('.player-two .score');
+const p1ScoreElement = document.querySelector('.player-one .score');
+const p2ScoreElement = document.querySelector('.player-two .score');
 const startGameElement = document.querySelector('#start-game');
 const main = document.querySelector('main');
-
+const playersContainer = document.querySelector('.players-container');
 
 const newDeckURL = 'https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1';
 
@@ -19,10 +19,24 @@ let remainingCards;
 let deckID;
 let p1DrawnCard;
 let p2DrawnCard;
-let p1score = 0;
-let p2score = 0;
+let p1Score = 0;
+let p2Score = 0;
 
 const nextRoundButton = document.createElement('button');
+
+const printEndMessage = () => {
+  nextRoundButton.style.display = 'none';
+  const endWinnerMessage = document.createElement('p');
+  endWinnerMessage.classList.add('winner-message');
+  if (p1Score > p2Score) {
+    endWinnerMessage.innerText = 'Player One Wins!';
+  } else if (p1Score < p2Score) {
+    endWinnerMessage.innerText = 'Player Two Wins!';
+  } else {
+    endWinnerMessage.innerText = 'It\'s a tie!';
+  }
+  deck.append(endWinnerMessage);
+}
 
 deckButton.addEventListener('click', async function(event) {
   const response = await fetch(newDeckURL);
@@ -41,7 +55,7 @@ deckButton.addEventListener('click', async function(event) {
   if (deckID) {
     buttonOne.classList.remove('hidden');
     buttonTwo.classList.remove('hidden');
-    resetButton.classList.remove('remove');
+    reshuffleButton.classList.remove('remove');
     startGameElement.style.display = 'none';
   }
 
@@ -53,6 +67,8 @@ buttonOne.addEventListener('click', async function(event) {
     const response = await fetch(drawCardURL);
     const drawnCard = await response.json();
     const cardImage = drawnCard.cards[0].images.png;
+    
+    buttonOne.disabled = true;
     
     playerOneCard.style.backgroundImage = `url(${cardImage})`;
     playerOneCard.style.borderRadius = 0;
@@ -72,25 +88,28 @@ buttonOne.addEventListener('click', async function(event) {
         buttonOne.classList.add('winner');
         
         buttonTwo.innerText = 'Loser';
-        p1score++;
-        p1scoreElement.innerText = p1score;
+        p1Score++;
+        p1ScoreElement.innerText = p1Score;
       } else {
         buttonTwo.innerText = 'Winner!';
         buttonTwo.classList.add('winner');
         buttonOne.innerText = 'Loser';
-        p2score++;
-        p2scoreElement.innerText = p2score;
+        p2Score++;
+        p2ScoreElement.innerText = p2Score;
       }
       if (nextRoundButton.style.display === 'none') {
         nextRoundButton.style.display = 'block';
       }
       buttonOne.disabled = true;
-      buttonTwo.disabled = true;
       nextRoundButton.innerText = 'Next round';
       main.appendChild(nextRoundButton);
       p1DrawnCard = null;
       p2DrawnCard = null;
     }
+    if (remainingCards === 0) {
+      nextRoundButton.style.display = 'none';   
+      printEndMessage();
+    }    
   }
 })
 
@@ -101,6 +120,8 @@ buttonTwo.addEventListener('click', async function(event) {
     const response = await fetch(drawCardURL);
     const drawnCard = await response.json();
     const cardImage = drawnCard.cards[0].images.png;
+    
+    buttonTwo.disabled = true;
     
     playerTwoCard.style.backgroundImage = `url(${cardImage})`;
     playerTwoCard.style.borderRadius = 0;
@@ -120,14 +141,14 @@ buttonTwo.addEventListener('click', async function(event) {
         buttonOne.classList.add('winner');
         
         buttonTwo.innerText = 'Loser';
-        p1score++;
-        p1scoreElement.innerText = p1score;
+        p1Score++;
+        p1ScoreElement.innerText = p1Score;
       } else {
         buttonTwo.innerText = 'Winner!';
         buttonTwo.classList.add('winner');
         buttonOne.innerText = 'Loser';
-        p2score++;
-        p2scoreElement.innerText = p2score;
+        p2Score++;
+        p2ScoreElement.innerText = p2Score;
       }
       if (nextRoundButton.style.display === 'none') {
         nextRoundButton.style.display = 'block';
@@ -135,10 +156,13 @@ buttonTwo.addEventListener('click', async function(event) {
       nextRoundButton.innerText = 'Next round';
       main.appendChild(nextRoundButton);
       buttonOne.disabled = true;
-      buttonTwo.disabled = true;
       p1DrawnCard = null;
       p2DrawnCard = null;
     }
+    if (remainingCards === 0) {
+      nextRoundButton.style.display = 'none';    
+      printEndMessage();
+    }  
   }
 })
 
@@ -164,7 +188,7 @@ nextRoundButton.addEventListener('click', function(event) {
   buttonTwo.disabled = false;
 })
 
-resetButton.addEventListener('click', async function(event) {
+reshuffleButton.addEventListener('click', async function(event) {
   const reshuffleDeckURL = `https://deckofcardsapi.com/api/deck/${deckID}/shuffle/`;
   const response = await fetch(reshuffleDeckURL);
   const reshuffledDeck = await response.json();
@@ -174,10 +198,10 @@ resetButton.addEventListener('click', async function(event) {
   
   p1DrawnCard = null;
   p2DrawnCard = null;
-  p1score = 0;
-  p2score = 0;
-  p1scoreElement.innerText = p1score;
-  p2scoreElement.innerText = p1score;
+  p1Score = 0;
+  p2Score = 0;
+  p1ScoreElement.innerText = p1Score;
+  p2ScoreElement.innerText = p1Score;
   
   if (buttonOne.classList.value.includes('winner')) {
     buttonOne.classList.remove('winner');
@@ -200,6 +224,11 @@ resetButton.addEventListener('click', async function(event) {
   if (buttonOne.disabled) {
     buttonOne.disabled = false;
     buttonTwo.disabled = false;
+  }
+  
+  if (document.querySelector('.winner-message')) {
+    const endWinnerMessage = document.querySelector('.winner-message');
+    endWinnerMessage.remove();
   }
 })
 
